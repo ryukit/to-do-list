@@ -40,3 +40,10 @@
 .mainForm-submit {
   margin-top: 20px;
 }
+.mainList-item-functional {
+  margin: 0;
+  padding: 0;
+}
+.mainList-item-functional li {
+  display: inline-block;
+}
