@@ -11,6 +11,7 @@ class ToDoList extends Component {
         		//description={item.description}
                 deleteItem={this.props.deleteItem}
                 checkStatus={this.props.checkStatus}
+                editItem={this.props.editItem}
                 isChecked={item.isChecked}
 			/>
         ))
@@ -20,7 +21,7 @@ class ToDoList extends Component {
                     <thead>
                         <tr>
                             <th>Title</th>
-                            <th width="100">Action</th>
+                            <th width="140">Action</th>
                             <th width="70">label</th>
                         </tr>  
                     </thead>

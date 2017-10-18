@@ -55,6 +55,11 @@ class App extends Component {
       ref.remove();
     }
 
+    editItem = (updatedItem) => {
+      let ref = new firebase.database().ref('tasks/').child(updatedItem.id);
+      ref.update(updatedItem);
+    }
+
     checkStatus = (this_el) => {
       let newCheckVal = !this_el.props.isChecked;
       const item = {
@@ -62,7 +67,8 @@ class App extends Component {
         key: this_el.props.id,
         title: this_el.props.title,
         //description: this_el.props.description,
-        isChecked: newCheckVal
+        isChecked: newCheckVal,
+        isEditing: false
       }
       let ref = new firebase.database().ref('tasks/').child(item.id);
       ref.update(item);
@@ -73,7 +79,7 @@ class App extends Component {
       		<div className="App">
         		<div className="container">
         			<ToDoForm formSubmit={this.formSubmit}/>
-        			<ToDoList items={this.state.items} deleteItem={this.deleteItem} checkStatus={this.checkStatus}/>
+        			<ToDoList items={this.state.items} deleteItem={this.deleteItem} checkStatus={this.checkStatus} editItem={this.editItem}/>
         		</div>	
       		</div>
     	);
