@@ -17,18 +17,22 @@ class ToDoList extends Component {
         ))
         if(this.props.items.length > 0){
             return (
-                <table className="striped bordered mainList">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th width="140">Action</th>
-                            <th width="70">label</th>
-                        </tr>  
-                    </thead>
-                    <tbody>
-                        {toDoItem}
-                    </tbody>
-                </table>
+                <div className="row">
+                    <div className="col s12">
+                        <table className="striped bordered mainList">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th width="140">Action</th>
+                                    <th width="70">label</th>
+                                </tr>  
+                            </thead>
+                            <tbody>
+                                {toDoItem}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             );
         }
         return null;

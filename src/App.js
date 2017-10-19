@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import ToDoList from './ToDoList';
 import ToDoForm from './ToDoForm';
+import SideBar from './SideBar';
 import firebase from 'firebase';
 
 let config = {
@@ -18,7 +19,8 @@ class App extends Component {
 	constructor(props) {
     	super(props);
     	this.state = { 
-    		items: []
+    		items: [],
+        categories: []
     	};
   	}
 
@@ -37,6 +39,23 @@ class App extends Component {
 
             this.setState({
                 items: items
+            });
+        }.bind(this));
+
+        let categories = new firebase.database().ref('categories/').orderByChild('datestamp');
+        categories.on('value', function(snapshot) {
+            const categories = [];
+            //var sorted = [];
+
+            snapshot.forEach(function(itemSnap) {
+                const item = itemSnap.val();
+                item.key = itemSnap.key;
+                item.id = itemSnap.key;
+                categories.push(item);
+            });
+
+            this.setState({
+                categories: categories
             });
         }.bind(this));
     }
@@ -74,10 +93,31 @@ class App extends Component {
       ref.update(item);
     }
 
+    addMainCategory = (newMainCategory) => {
+      let ref = new firebase.database().ref('categories/');
+      ref.push(newMainCategory);
+    }
+
+    sendDeleteCategory = (item) => {
+      let ref = new firebase.database().ref('categories/').child(item.props.id);
+      ref.remove();
+    }
+
+    editCategoryItem = (updatedItem) => {
+      let ref = new firebase.database().ref('categories/').child(updatedItem.id);
+      ref.update(updatedItem);
+    }
+
   	render() {
     	return (
       		<div className="App">
-        		<div className="container">
+            <SideBar 
+              categories={this.state.categories} 
+              addMainCategory={this.addMainCategory} 
+              sendDeleteCategory={this.sendDeleteCategory}
+              editCategoryItem={this.editCategoryItem}
+            />
+        		<div className="main-container">
         			<ToDoForm formSubmit={this.formSubmit}/>
         			<ToDoList items={this.state.items} deleteItem={this.deleteItem} checkStatus={this.checkStatus} editItem={this.editItem}/>
         		</div>	

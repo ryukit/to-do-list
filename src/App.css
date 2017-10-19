@@ -30,6 +30,7 @@
 .pageWrapper {
   display: flex;
   min-height: 100vh;
+  padding-left: 300px;
   flex-direction: column;
 }
 
@@ -46,4 +47,24 @@
 }
 .mainList-item-functional li {
   display: inline-block;
+}
+.main-container {
+  /*padding: 0 30px;*/
+}
+.categoryForm {
+  padding: 0 15px;
+  display: flex;
+  align-items: flex-end;
+}
+.categoryForm-input {
+  width: 100%;
+}
+.categoryItem {
+  display: flex;
+}
+.categoryItem-title {
+  width: 100%;
+}
+.categoryItem i {
+  cursor: pointer;
 }

@@ -16,6 +16,8 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "react-key-index": "^0.1.1",
+    "shortid": "^2.2.8"
   }
 }
