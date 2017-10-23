@@ -49,8 +49,8 @@ class App extends Component {
 
             snapshot.forEach(function(itemSnap) {
                 const item = itemSnap.val();
-                item.key = itemSnap.key;
-                item.id = itemSnap.key;
+                item.key = item.key;
+                item.id = item.id;
                 categories.push(item);
             });
 
@@ -94,8 +94,8 @@ class App extends Component {
     }
 
     addMainCategory = (newMainCategory) => {
-      let ref = new firebase.database().ref('categories/');
-      ref.push(newMainCategory);
+      let ref = new firebase.database().ref('categories/').child(newMainCategory.id)
+      ref.set(newMainCategory);
     }
 
     sendDeleteCategory = (item) => {
@@ -104,8 +104,27 @@ class App extends Component {
     }
 
     editCategoryItem = (updatedItem) => {
+      console.log(updatedItem)
       let ref = new firebase.database().ref('categories/').child(updatedItem.id);
       ref.update(updatedItem);
+    }
+
+    createSubCategoryItem = (newSubCategoryItem, parentCategoryItem) => {
+      let ref = new firebase.database().ref('categories/').child(newSubCategoryItem.id);
+      ref.set(newSubCategoryItem);
+      let refParent = new firebase.database().ref('categories/').child(parentCategoryItem.id);
+      refParent.set(parentCategoryItem);
+      // let allItems = this.state.categories;
+      // let parentId = newSubCategoryItem.parentId;
+      // for (var i=0, iLen=allItems.length; i<iLen; i++) {
+      //   if (allItems[i].id === parentId) {
+      //     allItems[i].childId = newSubCategoryItem.id;
+      //     console.log(allItems[i]);
+      //     debugger;
+      //     let refParent = new firebase.database().ref('categories/').child(allItems[i].id);
+      //     ref.update(allItems[i]);
+      //   }
+      // }
     }
 
   	render() {
@@ -116,10 +135,16 @@ class App extends Component {
               addMainCategory={this.addMainCategory} 
               sendDeleteCategory={this.sendDeleteCategory}
               editCategoryItem={this.editCategoryItem}
+              createSubCategoryItem={this.createSubCategoryItem}
             />
         		<div className="main-container">
         			<ToDoForm formSubmit={this.formSubmit}/>
-        			<ToDoList items={this.state.items} deleteItem={this.deleteItem} checkStatus={this.checkStatus} editItem={this.editItem}/>
+        			<ToDoList 
+                items={this.state.items} 
+                deleteItem={this.deleteItem} 
+                checkStatus={this.checkStatus} 
+                editItem={this.editItem}
+              />
         		</div>	
       		</div>
     	);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import shortid from 'shortid';
 
 class CategoryItem extends Component {
 	constructor(props) {
@@ -8,14 +9,21 @@ class CategoryItem extends Component {
     			id: this.props.id,
 	        	key: this.props.id,
 	    		title: this.props.title,
-	    		datestamp: this.props.datestamp
+	    		datestamp: this.props.datestamp,
+	    		parentId: this.props.parentId,
+	    		childId: this.props.childId
     		},
-    		isEditing: false
+    		isEditing: false,
+    		isAddingSubCategory: false,
+    		subItemTitle: ''
     	}
 	    this.deleteCategory = this.deleteCategory.bind(this);
   		this.editCategoryItemTitle = this.editCategoryItemTitle.bind(this);
   		this.sendCategoryNewTitle = this.sendCategoryNewTitle.bind(this);
   		this.openCategoryEditField = this.openCategoryEditField.bind(this);
+  		this.openInputNewSubCategory = this.openInputNewSubCategory.bind(this);
+  		this.changeSubCategoryItemTitle = this.changeSubCategoryItemTitle.bind(this);
+  		this.submitSubCategoryItem = this.submitSubCategoryItem.bind(this);
   	}
 
   	editCategoryItemTitle(e) {
@@ -24,10 +32,10 @@ class CategoryItem extends Component {
 			id: this.props.id,
         	key: this.props.id,
     		title: e.target.value,
-    		datestamp: this.props.datestamp
+    		datestamp: this.props.datestamp,
+    		parentId: this.props.parentId,
+    		childId: this.props.childId
 		}});
-		console.log(this.state)
-		debugger;
   	}
 
   	sendCategoryNewTitle(e) {
@@ -46,15 +54,59 @@ class CategoryItem extends Component {
 	deleteCategory(e) {
 		e.preventDefault();
 		this.props.sendDeleteCategory(this);
-	}	
+	}
+
+	openInputNewSubCategory(e) {
+		e.preventDefault();
+		let openAddNewCategory;
+		openAddNewCategory = !this.state.isAddingSubCategory;;
+		this.setState({ isAddingSubCategory: openAddNewCategory });
+	}
+
+	changeSubCategoryItemTitle(e) {
+		e.preventDefault();
+		this.setState({ subItemTitle: e.target.value})
+	}
+
+	submitSubCategoryItem(e) {
+		e.preventDefault();
+		if (!this.state.subItemTitle.length) {
+	      return;
+	    }
+	    const datestamp = Date.now();
+	    const generatedId = shortid.generate();
+		const newSubCategoryItem = {
+			id: generatedId,
+        	key: datestamp,
+    		title: this.state.subItemTitle,
+    		datestamp: datestamp,
+    		parentId: this.props.id,
+    		childId: this.props.childId
+		}
+		const parentCategoryItem = {
+			id: this.props.id,
+        	key: this.props.datestamp,
+    		title: this.props.title,
+    		datestamp: this.props.datestamp,
+    		parentId: this.props.parentId,
+    		childId: ( this.props.childId + ',' + generatedId ).replace('null,','')
+		}
+		this.setState({
+	    	subItemTitle: ''
+	    })
+	    this.setState({isAddingSubCategory: false});
+	    console.log(parentCategoryItem);
+	    debugger;
+	    this.props.createSubCategoryItem(newSubCategoryItem, parentCategoryItem);
+	}
 
     render() {
     	const itemEdit = this.state.isEditing;
-    	let renderMe = '';
+    	let renderCategoryTitle = '';
 		if (!itemEdit) {
-			renderMe = (<div>{this.props.title}</div>)
+			renderCategoryTitle = (<div>{this.props.title}</div>)
 		} else {
-			renderMe = (
+			renderCategoryTitle = (
 				<div>
 					<form onSubmit={this.sendCategoryNewTitle}>
 						<div className="input-field">
@@ -65,21 +117,36 @@ class CategoryItem extends Component {
 				</div>
 			)
 		}
+		const addSubCategory = this.state.isAddingSubCategory;
+		let renderAddSubCategory = '';
+		if (addSubCategory) {
+			renderAddSubCategory = (
+				<div>
+					<form onSubmit={this.submitSubCategoryItem}>
+						<div className="input-field">
+			            	<input id={this.props.id} type="text" value={this.state.subItemTitle} onChange={this.changeSubCategoryItemTitle} />
+				          	<label htmlFor={this.props.id}>Add New Sub Item</label>
+				        </div>
+					</form>
+				</div>
+			)
+		}
     	return (
             <div className="row">
                 <div className="col s12">
                    <div className="categoryItem">
-               			<div className="categoryItem-title">{renderMe}</div>
+               			<div className="categoryItem-title">{renderCategoryTitle}</div>
                			<div className="categoryItem-edit" onClick={this.openCategoryEditField}>
                				<i className="material-icons">edit</i>
                			</div>
-               			<div className="categoryItem-newSub">
+               			<div className="categoryItem-newSub" onClick={this.openInputNewSubCategory}>
                				<i className="material-icons">add</i>
                			</div>
                			<div className="categoryItem-delete" onClick={this.deleteCategory}>
                				<i className="material-icons">delete</i>
                			</div>
                    </div>
+                   {renderAddSubCategory}
                 </div>
             </div>
         );

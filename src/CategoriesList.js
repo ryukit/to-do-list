@@ -9,8 +9,11 @@ class CategoriesList extends Component {
 	            id={category.id}
 	            key={category.key}
 	            datestamp={category.datestamp}
+	            parentId={category.parentId}
+            	childId={category.childId}
 	            sendDeleteCategory={this.props.sendDeleteCategory}
 	            editCategoryItem={this.props.editCategoryItem}
+	            createSubCategoryItem={this.props.createSubCategoryItem}
 			/>
 	    ))
 	    if(this.props.categories.length > 0){

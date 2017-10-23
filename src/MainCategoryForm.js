@@ -25,8 +25,10 @@ class MainCategoryForm extends Component {
 	    const newMainCategory = {
 	      title: this.state.title,
 	      id: generatedId,
-	      key: generatedId,
-	      datestamp: datestamp
+	      key: datestamp,
+	      datestamp: datestamp,
+	      parentId: 'null',
+	      childId: 'null'
 	    };
 	    this.setState({
 	    	title: ''
@@ -45,7 +47,7 @@ class MainCategoryForm extends Component {
 				        </div>
 	        		</div>
 	        		<div className="categoryForm-submit">
-	    				<button type="submit">
+	    				<button type="submit" className="btn-floating waves-effect waves-light green">
     						<i className="material-icons">add</i>
 	    				</button>
 	        		</div>
