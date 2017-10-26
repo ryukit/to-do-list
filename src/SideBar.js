@@ -17,6 +17,7 @@ class SideBar extends Component {
 			    		sendDeleteCategory={this.props.sendDeleteCategory}
 			    		editCategoryItem={this.props.editCategoryItem}
 			    		createSubCategoryItem={this.props.createSubCategoryItem}
+			    		changeCategoryState={this.props.changeCategoryState}
 		    		/>
 			    </li>
 			</ul>

@@ -24,6 +24,7 @@ class CategoryItem extends Component {
   		this.openInputNewSubCategory = this.openInputNewSubCategory.bind(this);
   		this.changeSubCategoryItemTitle = this.changeSubCategoryItemTitle.bind(this);
   		this.submitSubCategoryItem = this.submitSubCategoryItem.bind(this);
+  		this.setCategoryState = this.setCategoryState.bind(this);
   	}
 
   	editCategoryItemTitle(e) {
@@ -100,6 +101,11 @@ class CategoryItem extends Component {
 	    this.props.createSubCategoryItem(newSubCategoryItem, parentCategoryItem);
 	}
 
+	setCategoryState(e) {
+		let newState = this.props.id;
+		this.props.changeCategoryState(newState);
+	}
+
     render() {
     	const itemEdit = this.state.isEditing;
     	let renderCategoryTitle = '';
@@ -131,11 +137,14 @@ class CategoryItem extends Component {
 				</div>
 			)
 		}
+		const itemParent = this.props.parentId;
+		let itemRender = '';
+
     	return (
             <div className="row">
                 <div className="col s12">
-                   <div className="categoryItem">
-               			<div className="categoryItem-title">{renderCategoryTitle}</div>
+                   <div className="categoryItem" id={this.props.id}>
+               			<div className="categoryItem-title" onClick={this.setCategoryState}>{renderCategoryTitle}</div>
                			<div className="categoryItem-edit" onClick={this.openCategoryEditField}>
                				<i className="material-icons">edit</i>
                			</div>

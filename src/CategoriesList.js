@@ -14,6 +14,7 @@ class CategoriesList extends Component {
 	            sendDeleteCategory={this.props.sendDeleteCategory}
 	            editCategoryItem={this.props.editCategoryItem}
 	            createSubCategoryItem={this.props.createSubCategoryItem}
+	            changeCategoryState={this.props.changeCategoryState}
 			/>
 	    ))
 	    if(this.props.categories.length > 0){

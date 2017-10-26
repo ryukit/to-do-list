@@ -64,6 +64,7 @@
 }
 .categoryItem-title {
   width: 100%;
+  cursor: pointer;
 }
 .categoryItem i {
   cursor: pointer;

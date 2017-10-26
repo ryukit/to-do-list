@@ -20,7 +20,8 @@ class App extends Component {
     	super(props);
     	this.state = { 
     		items: [],
-        categories: []
+        categories: [],
+        categoryState: 'none'
     	};
   	}
 
@@ -127,7 +128,24 @@ class App extends Component {
       // }
     }
 
+    changeCategoryState = (newState) => {
+      this.setState({
+        categoryState: newState
+      });
+    }
+
   	render() {
+      let formRender = '';
+      if ( this.state.categoryState === 'none') {
+        formRender = (
+          <div>
+            <h1>All Tasks</h1>
+            <p>Select one of categories to filter</p>
+          </div>
+        );
+      } else {
+        formRender = ( <ToDoForm formSubmit={this.formSubmit} formCategory={this.state.categoryState} /> );
+      }
     	return (
       		<div className="App">
             <SideBar 
@@ -136,14 +154,16 @@ class App extends Component {
               sendDeleteCategory={this.sendDeleteCategory}
               editCategoryItem={this.editCategoryItem}
               createSubCategoryItem={this.createSubCategoryItem}
+              changeCategoryState={this.changeCategoryState}
             />
         		<div className="main-container">
-        			<ToDoForm formSubmit={this.formSubmit}/>
+              {formRender}
         			<ToDoList 
                 items={this.state.items} 
                 deleteItem={this.deleteItem} 
                 checkStatus={this.checkStatus} 
                 editItem={this.editItem}
+                listCategory={this.state.categoryState}
               />
         		</div>	
       		</div>

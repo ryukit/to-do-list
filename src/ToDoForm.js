@@ -21,6 +21,7 @@ class ToDoForm extends Component {
 	    }
 	    const newItem = {
 	      title: this.state.title,
+	      parentCategory: this.props.formCategory,
 	      isChecked: false
 	    };
 	    this.setState({
