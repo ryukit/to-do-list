@@ -137,13 +137,23 @@ class CategoryItem extends Component {
 				</div>
 			)
 		}
-		const itemParent = this.props.parentId;
-		let itemRender = '';
-
-    	return (
-            <div className="row">
-                <div className="col s12">
-                   <div className="categoryItem" id={this.props.id}>
+		// const itemParent = this.props.parentId;
+		// let renderSubCategory = '';
+		// if(itemParent.length &&  itemParent !== 'null') {
+		// 	//renderSubCategory = 'has parent'
+		// 	//itemRender = 
+		// 	let thisItem = document.getElementById(this.props.id);
+		// 	let parentElement = document.getElementById(itemParent);
+		// 	//parentElement.appendChild(thisItem)
+		// 	console.log('has parent', itemParent);
+		// 	console.log(parentElement);
+		// 	console.log(this);
+		// 	debugger;
+		// }
+		let itemRender = (
+			<div className="row">
+                <div className="col s12" id={this.props.id}>
+                   <div className="categoryItem">
                			<div className="categoryItem-title" onClick={this.setCategoryState}>{renderCategoryTitle}</div>
                			<div className="categoryItem-edit" onClick={this.openCategoryEditField}>
                				<i className="material-icons">edit</i>
@@ -156,8 +166,17 @@ class CategoryItem extends Component {
                			</div>
                    </div>
                    {renderAddSubCategory}
+                   
                 </div>
             </div>
+		)
+
+		//if ( )
+
+    	return (
+    		<div>
+            	{itemRender}
+    		</div>
         );
     }
 }

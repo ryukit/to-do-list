@@ -2,19 +2,40 @@ import React, { Component } from 'react';
 import ToDoItem from './ToDoItem';
 
 class ToDoList extends Component {
+
     render() {
-    	const toDoItem = this.props.items.map(item => (
-			<ToDoItem 
-				id={item.id}
-                key={item.id}
-                title={item.title}
-        		//description={item.description}
-                deleteItem={this.props.deleteItem}
-                checkStatus={this.props.checkStatus}
-                editItem={this.props.editItem}
-                isChecked={item.isChecked}
-			/>
-        ))
+        let currentCategoryState = this.props.listCategory;
+        let deleteItem=this.props.deleteItem;
+        let checkStatus=this.props.checkStatus;
+        let editItem=this.props.editItem;
+
+        const toDoItem = this.props.items.map(function(item) { 
+            if (currentCategoryState === item.parentCategory) {
+                return ( <ToDoItem 
+                    id={item.id}
+                    key={item.id}
+                    title={item.title}
+                    parentCategory={item.parentCategory}
+                    //description={item.description}
+                    deleteItem={deleteItem}
+                    checkStatus={checkStatus}
+                    editItem={editItem}
+                    isChecked={item.isChecked}
+                /> )
+            } else if ( currentCategoryState === 'none' ) {
+                return ( <ToDoItem 
+                    id={item.id}
+                    key={item.id}
+                    title={item.title}
+                    parentCategory={item.parentCategory}
+                    //description={item.description}
+                    deleteItem={deleteItem}
+                    checkStatus={checkStatus}
+                    editItem={editItem}
+                    isChecked={item.isChecked}
+                /> )
+            }
+        });
         if(this.props.items.length > 0){
             return (
                 <div className="row">
